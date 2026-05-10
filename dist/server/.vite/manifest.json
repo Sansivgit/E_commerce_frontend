@@ -1,0 +1,303 @@
+{
+  "%23tanstack-start-plugin-adapters": {
+    "file": "assets/__23tanstack-start-plugin-adapters-Cwee5PKy.js",
+    "name": "__23tanstack-start-plugin-adapters",
+    "src": "%23tanstack-start-plugin-adapters",
+    "isDynamicEntry": true
+  },
+  "D:/Project/E-Commerce/Frontend/src/styles.css": {
+    "file": "assets/styles-BnHIphBv.css",
+    "src": "D:/Project/E-Commerce/Frontend/src/styles.css"
+  },
+  "_Breadcrumbs-DX4uRrgU.js": {
+    "file": "assets/Breadcrumbs-DX4uRrgU.js",
+    "name": "Breadcrumbs",
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_EmptyState-D1yyW10q.js": {
+    "file": "assets/EmptyState-D1yyW10q.js",
+    "name": "EmptyState",
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_ProductCard-D7XIwqM6.js": {
+    "file": "assets/ProductCard-D7XIwqM6.js",
+    "name": "ProductCard",
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_sizes-BMKjk5Mb.js",
+      "_addresses-BlM5wH_I.js",
+      "_radio-group-DnGV9OEO.js"
+    ]
+  },
+  "_addresses-BlM5wH_I.js": {
+    "file": "assets/addresses-BlM5wH_I.js",
+    "name": "addresses",
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_arrow-right-DRAwsHSP.js": {
+    "file": "assets/arrow-right-DRAwsHSP.js",
+    "name": "arrow-right",
+    "imports": [
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_chevron-down-hJSJMBep.js": {
+    "file": "assets/chevron-down-hJSJMBep.js",
+    "name": "chevron-down",
+    "imports": [
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_eye-BWfPihfC.js": {
+    "file": "assets/eye-BWfPihfC.js",
+    "name": "eye",
+    "imports": [
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_radio-group-DnGV9OEO.js": {
+    "file": "assets/radio-group-DnGV9OEO.js",
+    "name": "radio-group",
+    "imports": [
+      "_router-B4WIY8un.js",
+      "_server-FI23jbqg.js"
+    ]
+  },
+  "_router-B4WIY8un.js": {
+    "file": "assets/router-B4WIY8un.js",
+    "name": "router",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js"
+    ],
+    "dynamicImports": [
+      "src/routes/wishlist.tsx?tsr-split=component",
+      "src/routes/register.tsx?tsr-split=component",
+      "src/routes/profile.tsx?tsr-split=component",
+      "src/routes/products.tsx?tsr-split=component",
+      "src/routes/login.tsx?tsr-split=component",
+      "src/routes/forgot-password.tsx?tsr-split=component",
+      "src/routes/cart.tsx?tsr-split=component",
+      "src/routes/index.tsx?tsr-split=component",
+      "src/routes/reset-password.$token.tsx?tsr-split=component",
+      "src/routes/products.$slug.tsx?tsr-split=component"
+    ],
+    "assets": [
+      "assets/styles-BnHIphBv.css"
+    ]
+  },
+  "_schemas-DCXw7d5m.js": {
+    "file": "assets/schemas-DCXw7d5m.js",
+    "name": "schemas",
+    "imports": [
+      "_server-FI23jbqg.js"
+    ]
+  },
+  "_server-FI23jbqg.js": {
+    "file": "assets/server-FI23jbqg.js",
+    "name": "server",
+    "isDynamicEntry": true,
+    "dynamicImports": [
+      "tanstack-start-manifest:v",
+      "_router-B4WIY8un.js",
+      "src/start.ts",
+      "%23tanstack-start-plugin-adapters"
+    ]
+  },
+  "_sizes-BMKjk5Mb.js": {
+    "file": "assets/sizes-BMKjk5Mb.js",
+    "name": "sizes"
+  },
+  "_truck-DithHoBT.js": {
+    "file": "assets/truck-DithHoBT.js",
+    "name": "truck",
+    "imports": [
+      "_router-B4WIY8un.js"
+    ]
+  },
+  "_worker-entry-C7xFjwKl.js": {
+    "file": "assets/worker-entry-C7xFjwKl.js",
+    "name": "worker-entry",
+    "dynamicImports": [
+      "_server-FI23jbqg.js"
+    ]
+  },
+  "src/assets/hero.jpg": {
+    "file": "assets/hero-DK50zqu1.jpg",
+    "src": "src/assets/hero.jpg"
+  },
+  "src/routes/cart.tsx?tsr-split=component": {
+    "file": "assets/cart-D61IdI4j.js",
+    "name": "cart",
+    "src": "src/routes/cart.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_Breadcrumbs-DX4uRrgU.js",
+      "_EmptyState-D1yyW10q.js",
+      "_addresses-BlM5wH_I.js",
+      "_radio-group-DnGV9OEO.js",
+      "_arrow-right-DRAwsHSP.js"
+    ]
+  },
+  "src/routes/forgot-password.tsx?tsr-split=component": {
+    "file": "assets/forgot-password-Dt9xq5B9.js",
+    "name": "forgot-password",
+    "src": "src/routes/forgot-password.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_schemas-DCXw7d5m.js"
+    ]
+  },
+  "src/routes/index.tsx?tsr-split=component": {
+    "file": "assets/index-DPoa4e6n.js",
+    "name": "index",
+    "src": "src/routes/index.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_ProductCard-D7XIwqM6.js",
+      "_arrow-right-DRAwsHSP.js",
+      "_truck-DithHoBT.js",
+      "_sizes-BMKjk5Mb.js",
+      "_addresses-BlM5wH_I.js",
+      "_radio-group-DnGV9OEO.js"
+    ],
+    "assets": [
+      "assets/hero-DK50zqu1.jpg"
+    ]
+  },
+  "src/routes/login.tsx?tsr-split=component": {
+    "file": "assets/login-Df2IbkCg.js",
+    "name": "login",
+    "src": "src/routes/login.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_schemas-DCXw7d5m.js",
+      "_eye-BWfPihfC.js"
+    ]
+  },
+  "src/routes/products.$slug.tsx?tsr-split=component": {
+    "file": "assets/products._slug-DBl8rZY8.js",
+    "name": "products._slug",
+    "src": "src/routes/products.$slug.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_Breadcrumbs-DX4uRrgU.js",
+      "_ProductCard-D7XIwqM6.js",
+      "_chevron-down-hJSJMBep.js",
+      "_sizes-BMKjk5Mb.js",
+      "_radio-group-DnGV9OEO.js",
+      "_truck-DithHoBT.js",
+      "_addresses-BlM5wH_I.js"
+    ]
+  },
+  "src/routes/products.tsx?tsr-split=component": {
+    "file": "assets/products-B9u6xCYP.js",
+    "name": "products",
+    "src": "src/routes/products.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_Breadcrumbs-DX4uRrgU.js",
+      "_ProductCard-D7XIwqM6.js",
+      "_sizes-BMKjk5Mb.js",
+      "_radio-group-DnGV9OEO.js",
+      "_chevron-down-hJSJMBep.js",
+      "_addresses-BlM5wH_I.js"
+    ]
+  },
+  "src/routes/profile.tsx?tsr-split=component": {
+    "file": "assets/profile-B_C_UyAu.js",
+    "name": "profile",
+    "src": "src/routes/profile.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_Breadcrumbs-DX4uRrgU.js",
+      "_addresses-BlM5wH_I.js",
+      "_eye-BWfPihfC.js"
+    ]
+  },
+  "src/routes/register.tsx?tsr-split=component": {
+    "file": "assets/register-Bk8M0Kqj.js",
+    "name": "register",
+    "src": "src/routes/register.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_schemas-DCXw7d5m.js",
+      "_eye-BWfPihfC.js"
+    ]
+  },
+  "src/routes/reset-password.$token.tsx?tsr-split=component": {
+    "file": "assets/reset-password._token-DU1dpPvo.js",
+    "name": "reset-password._token",
+    "src": "src/routes/reset-password.$token.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_schemas-DCXw7d5m.js",
+      "_eye-BWfPihfC.js"
+    ]
+  },
+  "src/routes/wishlist.tsx?tsr-split=component": {
+    "file": "assets/wishlist-BJ4qq2YY.js",
+    "name": "wishlist",
+    "src": "src/routes/wishlist.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-FI23jbqg.js",
+      "_router-B4WIY8un.js",
+      "_Breadcrumbs-DX4uRrgU.js",
+      "_EmptyState-D1yyW10q.js",
+      "_sizes-BMKjk5Mb.js"
+    ]
+  },
+  "src/start.ts": {
+    "file": "assets/start-BFxXTvem.js",
+    "name": "start",
+    "src": "src/start.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_worker-entry-C7xFjwKl.js"
+    ]
+  },
+  "tanstack-start-manifest:v": {
+    "file": "assets/_tanstack-start-manifest_v-HTcCnVR-.js",
+    "name": "_tanstack-start-manifest_v",
+    "src": "tanstack-start-manifest:v",
+    "isDynamicEntry": true
+  },
+  "virtual:cloudflare/worker-entry": {
+    "file": "index.js",
+    "name": "index",
+    "src": "virtual:cloudflare/worker-entry",
+    "isEntry": true,
+    "imports": [
+      "_worker-entry-C7xFjwKl.js"
+    ]
+  }
+}

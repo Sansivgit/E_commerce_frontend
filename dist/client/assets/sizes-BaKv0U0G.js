@@ -1,0 +1,1 @@
+const S=["XS","S","M","L","XL","XXL"];function t(e){const n=e.trim().toUpperCase();return{XS:"XS",S:"S",M:"M",L:"L",XL:"XL",XXL:"XXL"}[n]??null}function o(e){return S.filter(n=>e.some(r=>t(r)===n))}function X(e,n){return n.find(r=>t(r)===e)}export{S,o,X as r};
