@@ -1,4 +1,4 @@
-/** Express API base from `VITE_API_URL` (no trailing slash). Empty = same-origin `/api` (use with Vite dev proxy). */
+/** Express API base from `VITE_API_URL` (no trailing slash). When unset, dev uses `VITE_BACKEND_ORIGIN` + path; production client uses same-origin `/api`. */
 export function getApiBaseUrl(): string {
   const raw = import.meta.env.VITE_API_URL;
   if (typeof raw === "string" && raw.trim()) {
@@ -7,20 +7,32 @@ export function getApiBaseUrl(): string {
   return "";
 }
 
-/** Full URL for API paths: absolute when `VITE_API_URL` is set, otherwise root-relative (proxied in dev). */
+function ssrBackendBase(): string {
+  const fromVite =
+    typeof import.meta.env.VITE_BACKEND_ORIGIN === "string"
+      ? import.meta.env.VITE_BACKEND_ORIGIN.trim().replace(/\/$/, "")
+      : "";
+  if (fromVite) return fromVite;
+  return "http://localhost:5000";
+}
+
+function isHtmlPayload(text: string): boolean {
+  const s = text.trimStart().slice(0, 64).toLowerCase();
+  return s.startsWith("<!doctype") || s.startsWith("<html");
+}
+
+/** Full URL for API paths: absolute when `VITE_API_URL` is set. In dev, uses `VITE_BACKEND_ORIGIN` so `/api` is not swallowed by the SPA server. */
 export function resolveApiUrl(path: string): string {
   const base = getApiBaseUrl();
   const p = path.startsWith("/") ? path : `/${path}`;
   if (base) return `${base}${p}`;
-  // SSR: Node `fetch` needs an absolute URL; call Express directly (same as Vite proxy target in dev).
+  const backend = ssrBackendBase();
+  // Dev (browser + SSR): hit Express directly — TanStack/Vite dev sometimes serves HTML for `/api/*`.
+  if (import.meta.env.DEV && backend) {
+    return `${backend}${p}`;
+  }
   if (typeof window === "undefined") {
-    const internal =
-      typeof process !== "undefined" &&
-      typeof process.env.API_INTERNAL_URL === "string" &&
-      process.env.API_INTERNAL_URL.trim()
-        ? process.env.API_INTERNAL_URL.trim().replace(/\/$/, "")
-        : "http://127.0.0.1:5000";
-    return `${internal}${p}`;
+    return `${backend}${p}`;
   }
   return p;
 }
@@ -42,14 +54,55 @@ export type ProfileApiResponse = {
   createdAt?: string;
 };
 
-function parseApiError(data: { message?: string; errors?: Array<{ msg?: string }> }): string {
-  if (Array.isArray(data.errors) && data.errors[0]?.msg) {
-    return String(data.errors[0].msg);
+type ApiErrorBody = {
+  message?: string;
+  errors?: Array<{ msg?: string; message?: string }>;
+};
+
+async function readResponseBody(res: Response): Promise<Record<string, unknown>> {
+  const raw = await res.text();
+  const trimmed = raw.trim();
+  if (!trimmed) return {};
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  if (ct.includes("text/html") || isHtmlPayload(trimmed)) {
+    return {
+      message:
+        "The server returned a web page instead of API data. Check that Express is running and matches VITE_BACKEND_ORIGIN in .env.",
+    };
+  }
+  try {
+    return JSON.parse(trimmed) as Record<string, unknown>;
+  } catch {
+    return { message: trimmed.slice(0, 200) };
+  }
+}
+
+function parseApiError(data: ApiErrorBody, res: Response): string {
+  if (Array.isArray(data.errors)) {
+    for (const err of data.errors) {
+      if (!err || typeof err !== "object") continue;
+      const msg =
+        typeof err.msg === "string"
+          ? err.msg
+          : typeof err.message === "string"
+            ? err.message
+            : "";
+      if (msg) return msg;
+    }
   }
   if (typeof data.message === "string" && data.message) {
     return data.message;
   }
-  return "Something went wrong";
+  const st = res.statusText?.trim();
+  if (st) return `${st} (${res.status})`;
+  return `Request failed (${res.status})`;
+}
+
+function apiNetworkErrorMessage(): string {
+  if (getApiBaseUrl()) {
+    return "Cannot reach the API. Check your connection, or that the backend allows this origin in CORS (CLIENT_URL / FRONTEND_URL / ADMIN_URL).";
+  }
+  return "Cannot reach the API. Start the backend (see VITE_BACKEND_ORIGIN in .env), or set VITE_API_URL.";
 }
 
 /** POST JSON to the API; throws Error with a user-facing message on failure. */
@@ -63,16 +116,11 @@ export async function postAuthJson<T>(path: string, body: Record<string, unknown
       body: JSON.stringify(body),
     });
   } catch {
-    throw new Error(
-      "Cannot reach the API. Start the backend on port 5000, or set VITE_API_URL if the server is elsewhere.",
-    );
+    throw new Error(apiNetworkErrorMessage());
   }
-  const data = (await res.json().catch(() => ({}))) as T & {
-    message?: string;
-    errors?: Array<{ msg?: string }>;
-  };
+  const data = (await readResponseBody(res)) as T & ApiErrorBody;
   if (!res.ok) {
-    throw new Error(parseApiError(data));
+    throw new Error(parseApiError(data, res));
   }
   return data as T;
 }
@@ -93,16 +141,11 @@ export async function getAuthJson<T>(path: string, token: string): Promise<T> {
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch {
-    throw new Error(
-      "Cannot reach the API. Start the backend on port 5000, or set VITE_API_URL if the server is elsewhere.",
-    );
+    throw new Error(apiNetworkErrorMessage());
   }
-  const data = (await res.json().catch(() => ({}))) as T & {
-    message?: string;
-    errors?: Array<{ msg?: string }>;
-  };
+  const data = (await readResponseBody(res)) as T & ApiErrorBody;
   if (!res.ok) {
-    throw new Error(parseApiError(data));
+    throw new Error(parseApiError(data, res));
   }
   return data as T;
 }
@@ -125,16 +168,11 @@ export async function requestAuthJson<T>(
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
   } catch {
-    throw new Error(
-      "Cannot reach the API. Start the backend on port 5000, or set VITE_API_URL if the server is elsewhere.",
-    );
+    throw new Error(apiNetworkErrorMessage());
   }
-  const data = (await res.json().catch(() => ({}))) as T & {
-    message?: string;
-    errors?: Array<{ msg?: string }>;
-  };
+  const data = (await readResponseBody(res)) as T & ApiErrorBody;
   if (!res.ok) {
-    throw new Error(parseApiError(data));
+    throw new Error(parseApiError(data, res));
   }
   return data as T;
 }
@@ -148,16 +186,11 @@ export async function getAuthProfile(token: string): Promise<ProfileApiResponse>
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch {
-    throw new Error(
-      "Cannot reach the API. Start the backend on port 5000, or set VITE_API_URL if the server is elsewhere.",
-    );
+    throw new Error(apiNetworkErrorMessage());
   }
-  const data = (await res.json().catch(() => ({}))) as ProfileApiResponse & {
-    message?: string;
-    errors?: Array<{ msg?: string }>;
-  };
+  const data = (await readResponseBody(res)) as ProfileApiResponse & ApiErrorBody;
   if (!res.ok) {
-    throw new Error(parseApiError(data));
+    throw new Error(parseApiError(data, res));
   }
   return data as ProfileApiResponse;
 }

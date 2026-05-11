@@ -4,24 +4,35 @@
 //     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadEnv } from "vite";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
-export default defineConfig({
-  tanstackStart: {
-    server: { entry: "server" },
-  },
-  /** Dev: browser calls same-origin `/api/*`; Vite forwards to Express (avoids CORS).
-   *  Requires API running on port 5000: `cd backend && npm run dev` */
-  vite: {
-    server: {
-      proxy: {
-        "/api": {
-          target: "http://127.0.0.1:5000",
-          changeOrigin: true,
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, __dirname, "");
+  const proxyTarget =
+    env.VITE_BACKEND_ORIGIN?.trim().replace(/\/$/, "") ||
+    "http://localhost:5000";
+
+  return {
+    tanstackStart: {
+      server: { entry: "server" },
+    },
+    /** Dev: `/api/*` → `VITE_BACKEND_ORIGIN` from `.env` (default Express :5000). */
+    vite: {
+      server: {
+        proxy: {
+          "/api": {
+            target: proxyTarget,
+            changeOrigin: true,
+          },
         },
       },
     },
-  },
+  };
 });

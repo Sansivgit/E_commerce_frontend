@@ -86,6 +86,14 @@ function loadStored(): {
   }
 }
 
+function mapAuthResponseToUser(data: AuthApiResponse): User {
+  return {
+    id: String(data._id),
+    name: data.name,
+    email: data.email,
+  };
+}
+
 function mapProfileToUser(p: {
   _id: unknown;
   name: string;
@@ -152,8 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: email.trim(),
       password,
     });
-    const profile = await getAuthProfile(data.token);
-    persistSession(mapProfileToUser(profile), data.token, rememberMe ? "local" : "session");
+    persistSession(mapAuthResponseToUser(data), data.token, rememberMe ? "local" : "session");
   };
 
   const loginWithToken = useCallback(
@@ -170,8 +177,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: email.trim(),
       password,
     });
-    const profile = await getAuthProfile(data.token);
-    persistSession(mapProfileToUser(profile), data.token, "local");
+    persistSession(mapAuthResponseToUser(data), data.token, "local");
   };
 
   const logout = () => {
